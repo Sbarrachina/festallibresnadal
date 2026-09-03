@@ -5,7 +5,6 @@
 
    document.addEventListener("DOMContentLoaded", () => {
 
-
     /* ---------------------------------------------------------
        CARRUSEL ACTIU PER AL TECLAT
        --------------------------------------------------------- */
@@ -40,12 +39,10 @@
             return;
         }
 
-
         const previousButton = buttons[0];
         const nextButton = buttons[1];
 
         let currentIndex = 0;
-        let autoplay = null;
         let isAnimating = false;
 
         const totalBooks = cards.length;
@@ -172,43 +169,13 @@
 
 
         /* ---------------------------------------------------------
-           AUTOPLAY
-           --------------------------------------------------------- */
-
-        function startAutoplay() {
-
-            stopAutoplay();
-
-            autoplay = setInterval(() => {
-                nextBook();
-            }, 20000);
-        }
-
-
-        function stopAutoplay() {
-
-            if (autoplay) {
-                clearInterval(autoplay);
-                autoplay = null;
-            }
-        }
-
-
-        function restartAutoplay() {
-
-            stopAutoplay();
-            startAutoplay();
-        }
-
-
-        /* ---------------------------------------------------------
            BOTÓ SEGÜENT
            --------------------------------------------------------- */
 
         nextButton.addEventListener("click", () => {
 
             nextBook();
-            restartAutoplay();
+
             activeCarousel = carousel;
         });
 
@@ -220,7 +187,7 @@
         previousButton.addEventListener("click", () => {
 
             previousBook();
-            restartAutoplay();
+
             activeCarousel = carousel;
         });
 
@@ -232,13 +199,6 @@
         carousel.addEventListener("mouseenter", () => {
 
             activeCarousel = carousel;
-            stopAutoplay();
-        });
-
-
-        carousel.addEventListener("mouseleave", () => {
-
-            startAutoplay();
         });
 
 
@@ -249,16 +209,6 @@
         carousel.addEventListener("touchstart", () => {
 
             activeCarousel = carousel;
-            stopAutoplay();
-
-        }, {
-            passive: true
-        });
-
-
-        carousel.addEventListener("touchend", () => {
-
-            restartAutoplay();
 
         }, {
             passive: true
@@ -279,24 +229,21 @@
             const info = firstCard.querySelector(".book-info");
 
             if (cover) {
+
                 cover.style.opacity = "1";
+
                 cover.style.transform =
                     "translateX(0) scale(1)";
             }
 
             if (info) {
+
                 info.style.opacity = "1";
+
                 info.style.transform =
                     "translateX(0)";
             }
         }
-
-
-        /* ---------------------------------------------------------
-           COMENÇAR AUTOPLAY
-           --------------------------------------------------------- */
-
-        startAutoplay();
 
 
         /* ---------------------------------------------------------
@@ -305,7 +252,6 @@
 
         carousel.nextBook = nextBook;
         carousel.previousBook = previousBook;
-        carousel.restartAutoplay = restartAutoplay;
     }
 
 
@@ -332,12 +278,10 @@
         if (event.key === "ArrowRight") {
 
             activeCarousel.nextBook();
-            activeCarousel.restartAutoplay();
 
         } else if (event.key === "ArrowLeft") {
 
             activeCarousel.previousBook();
-            activeCarousel.restartAutoplay();
         }
     });
 
